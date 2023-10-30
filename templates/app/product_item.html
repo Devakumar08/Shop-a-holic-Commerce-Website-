@@ -1,0 +1,7 @@
+<div class="item">
+    <a href="{% url 'product-detail' %}" class="btn">
+        <img src="{{ product.product_image.url }}" alt="" height="200px">
+        <span class="fw-bold">{{ product.title }}</span><br>
+        <span class="fs-5">Rs. {{ product.discounted_price }}</span>
+    </a>
+</div>

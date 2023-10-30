@@ -1,0 +1,59 @@
+
+
+
+
+
+
+
+
+<!-- Include Bootstrap CSS and JavaScript in your base.html file if not already included -->
+<!-- Example:
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+-->
+
+{% extends 'app/base.html' %}
+{% load static %}
+{% block title %}Orders{% endblock title %}
+{% block main-content %}
+<div class="container my-5">
+    <div class="row">
+        <h3>Welcome <span class="text-capitalize">{{ request.user }}</span></h3>
+        <div class="col-sm-2 border-end">
+            <ul class="list-unstyled">
+                <li class="d-grid"><a href="{% url 'orders' %}" class="btn btn-primary">Orders</a></li>
+            </ul>
+        </div>
+        <div class="col-sm-9 offset-sm-1">
+            {% for op in order_placed %}
+                <div class="row shadow-sm mb-3">
+                    <div class="col-sm-2">
+                        <img src="{{op.product.product_img.url}}" alt="" srcset="" class="img-fluid" height="150" width="150">
+                    </div>
+                    <div class="col-sm-7">
+                        <div>
+                            <h5>Product: {{op.product.title}}</h5>
+                            <p>Quantity: {{op.quantity}}</p>
+                            <p>Price: {{op.total_cost}}</p>
+                        </div>
+                    </div>
+                    <div class="col-sm-3 fw-bold">
+                        <p>Order Status: {{op.status}}</p>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" style="width: 
+                            {% if op.status == 'Accepted' %}20%
+                            {% elif op.status == 'Packed' %}40%
+                            {% elif op.status == 'On the Way' %}70%
+                            {% elif op.status == 'Delivered' %}100%
+                            {% else %}0%
+                            {% endif %};"
+                                aria-valuenow="20" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock main-content %}
